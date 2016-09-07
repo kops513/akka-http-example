@@ -1,3 +1,6 @@
+
+import com.typesafe.config.ConfigFactory
+
 import scala.concurrent.{Future, ExecutionContext}
 
 /**
@@ -8,8 +11,7 @@ class ContactService(implicit val executionContext: ExecutionContext) {
   var id = 0
 
   /**
-   * Contact is created here. If contact to be created has id then id is checked if its already exist or not.
-   * if it exist error message is thrown otherwise contact will be created.
+   *
    * @param contact
    * @return
    */
@@ -20,7 +22,7 @@ class ContactService(implicit val executionContext: ExecutionContext) {
         val tempContact = Contact(id, contact.name, contact.age.getOrElse(0))
         id = id + 1
         contacts = contacts :+ tempContact
-        Future.successful(Some(id.toString))
+        Future.successful(Some((id-1).toString))
     }
   }
 
@@ -40,10 +42,9 @@ class ContactService(implicit val executionContext: ExecutionContext) {
   def getContact(id: String): Future[Option[Contact]] = {
     try {
       val contactId = Integer.parseInt(id)
-     Future.successful(Some(contacts(contactId)))
+     Future.successful(contacts.find(p => p.id == contactId))
     }catch{
-      case e: NumberFormatException => Future.failed(new NumberFormatException("id must be integer"))
-      case  _ => Future.failed(new Exception("exception"))
+      case e : Exception => Future.failed(e)
     }
   }
 
@@ -57,14 +58,13 @@ class ContactService(implicit val executionContext: ExecutionContext) {
     try{
       val contactId = Integer.parseInt(id)
 
-      val prevContact = contacts(contactId)
+      val prevContact =contacts.find(p => p.id == contactId).get
        val updateContact = Contact(contactId,contact.name.getOrElse(prevContact.name), contact.age.getOrElse(prevContact.age))
       contacts = contacts.updated(contactId, updateContact)
       Future(s"contact with id = $id is updated")
     }catch{
-      case e: NumberFormatException => Future.successful("contactId must be integer")
-      case _ => Future.successful(s"contact with id = $id does not exist")
-    }
+      case e : Exception => Future.failed(e)
+          }
 
   }
 
@@ -79,8 +79,7 @@ class ContactService(implicit val executionContext: ExecutionContext) {
       contacts = contacts.filterNot(_.id == contactId)
       Future(s"contact with id = $id is deleted")
     }catch{
-      case e: NumberFormatException => Future.successful("id must be integer")
-      case _ => Future.successful("contact does not exist")
+      case e : Exception => Future.failed(e)
     }
 
   }

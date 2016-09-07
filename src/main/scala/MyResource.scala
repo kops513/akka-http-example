@@ -5,6 +5,7 @@ import scala.concurrent.{ExecutionContext, Future}
 import akka.http.scaladsl.model.headers.Location
 import akka.http.scaladsl.server.{Directives, Route}
 
+import scala.util.{Failure, Success}
 
 
 trait MyResource extends Directives with ContactJsonProtocols{
@@ -27,16 +28,35 @@ trait MyResource extends Directives with ContactJsonProtocols{
     }
 
   def complete[T: ToResponseMarshaller](resource: Future[Option[T]]): Route =
-    onSuccess(resource) {
-      case Some(t) => complete(ToResponseMarshallable(t))
+    onComplete(resource) {
+      case Success(t) => t match {
+        case Some(j) => complete(ToResponseMarshallable(t))
+        case None => complete(404, "Object Not-Found")
+                          }
+      case Failure(ex) => {
+        ex match {
+          case e1: NumberFormatException => complete(400,"id must be integer")
+          case e2: NoSuchElementException  => complete(404, "id not found")
+          case e3: IndexOutOfBoundsException  => complete(404, "id not found")
+          case e4: Throwable => complete(500,e4.toString)
+        }
+      }
     }
 
-  //  def complete[T: ToResponseMarshaller](resource: Future[List[T]]): Route =
-  //    onSuccess(resource) { t =>  complete(t.)}
 
   def complete(resource: Future[String]): Route =
-    onSuccess(resource) { t => complete(200, t)
+    onComplete(resource) {
+      case Success(t) =>  complete(200, t)
+      case Failure(ex) => {
+        ex match {
+          case e1: NumberFormatException => complete(400,"id must be integer")
+          case e2: NoSuchElementException => complete(404, "id not found")
+          case e3: IndexOutOfBoundsException  => complete(404, "id not found")
+          case e4: Throwable => complete(500,e4.toString)
+        }
+      }
     }
+
 
 
 

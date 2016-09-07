@@ -21,9 +21,9 @@ object Main extends App  with RestInterface{
 
   implicit val executionContext: ExecutionContext = system.dispatcher
   implicit val timeout = Timeout(10 seconds)
-  val parsedConfig = ConfigFactory.parseFile(new File("src/main/resources/application.conf"))
+ // val parsedConfig = ConfigFactory.parseFile(new File("src/main/resources/application.conf"))
 
-  protected val config = ConfigFactory.load(parsedConfig)
+  protected val config = ConfigFactory.load()
   protected val logLevel = config.getString("akka.loglevel")
 
   protected val interface = config.getString("http.interface")
