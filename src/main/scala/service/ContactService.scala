@@ -1,7 +1,9 @@
+package service
 
-import com.typesafe.config.ConfigFactory
 
-import scala.concurrent.{Future, ExecutionContext}
+import model.{UpdateContact, AddContact, Contact}
+
+import scala.concurrent.{ExecutionContext, Future}
 
 /**
  * Created by kops513 on 8/30/16.

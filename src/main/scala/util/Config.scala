@@ -1,3 +1,5 @@
+package util
+
 import com.typesafe.config.ConfigFactory
 
 /**

@@ -1,3 +1,5 @@
+package model
+
 import akka.http.scaladsl.marshallers.sprayjson.SprayJsonSupport
 import spray.json.DefaultJsonProtocol
 
@@ -11,8 +13,6 @@ case class Contact(id: Int, name: String, age: Int){
 case class AddContact(id: Option[Int] = None, name: String, age: Option[Int] = None)
 
 case class UpdateContact(id: Option[Int] = None, name: Option[String] = None, age: Option[Int] = None)
-
-case class Message(message: String)
 
 trait ContactJsonProtocols  extends DefaultJsonProtocol with SprayJsonSupport{
   implicit val contactFormat = jsonFormat3(Contact)

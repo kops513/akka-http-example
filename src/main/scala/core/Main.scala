@@ -1,15 +1,13 @@
-import java.io.File
+package core
 
-import com.typesafe.config.ConfigFactory
-
-import scala.concurrent.ExecutionContext
-import scala.concurrent.duration._
 import akka.actor._
 import akka.http.scaladsl.Http
 import akka.stream.ActorMaterializer
 import akka.util.Timeout
-import akka.http.scaladsl.marshallers.sprayjson.SprayJsonSupport._
-import akka.http.scaladsl.marshalling.{ToResponseMarshallable, ToResponseMarshaller}
+import com.typesafe.config.ConfigFactory
+
+import scala.concurrent.ExecutionContext
+import scala.concurrent.duration._
 
 /**
  * Created by kops513 on 8/30/16.
