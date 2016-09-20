@@ -24,8 +24,12 @@ libraryDependencies ++= {
     "com.typesafe.akka" %% "akka-stream" % akkaV,
     "com.typesafe.akka" %% "akka-http-experimental" % akkaV,
     "com.typesafe.akka" %% "akka-http-spray-json-experimental" % akkaV,
-    "com.typesafe.akka" %% "akka-http-testkit" % akkaV
-    )
+    "com.typesafe.akka" %% "akka-http-testkit" % akkaV,
+    "org.scalatest" %% "scalatest" % "3.0.0",
+    "org.scalacheck" % "scalacheck_2.11" % "1.13.1"
+
+
+  )
 })
 
 mainClass in Global := Some("Main")

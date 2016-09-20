@@ -5,6 +5,7 @@ import core.MyResource
 import model.{UpdateContact, AddContact, ContactJsonProtocols}
 import service.ContactService
 
+
 /**
  * Created by kops513 on 8/30/16.
  */

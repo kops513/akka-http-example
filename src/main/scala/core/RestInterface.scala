@@ -14,12 +14,12 @@ import scala.concurrent.ExecutionContext
  */
 trait RestInterface extends Resources with ApiErrorHandling{
 
-  implicit val executionContext: ExecutionContext
-
-  lazy val contactService = new ContactService()
-
+  implicit def executor: ExecutionContext
   val routes: Route = contactRoutes
 
 }
 
-trait Resources extends ContactResource
+trait Resources extends ContactResource{
+  lazy val contactService = new ContactService()
+
+}

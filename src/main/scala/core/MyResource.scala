@@ -10,7 +10,7 @@ import scala.concurrent.{ExecutionContext, Future}
 
 trait MyResource extends Directives{
 
-  implicit def executionContext: ExecutionContext
+  implicit def executor: ExecutionContext
 
   def completeWithLocationHeader[T](resourceId: Future[Option[T]], ifDefinedStatus: Int, ifEmptyStatus: Int): Route =
     onSuccess(resourceId) {

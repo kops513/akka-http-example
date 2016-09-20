@@ -17,7 +17,7 @@ object Main extends App  with RestInterface{
   implicit val system = ActorSystem("main-contact-actor")
   implicit val materializer = ActorMaterializer()
 
-  implicit val executionContext: ExecutionContext = system.dispatcher
+  implicit def executor: ExecutionContext  = system.dispatcher
   implicit val timeout = Timeout(10 seconds)
  // val parsedConfig = ConfigFactory.parseFile(new File("src/main/resources/application.conf"))
 
